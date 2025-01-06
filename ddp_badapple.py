@@ -24,7 +24,6 @@ for i in range(5):
 start_time = time.time()
 for i, img in enumerate(imgs):
     device.display(img)
-
     expected_elapsed = start_time + (i + 1) * framerate
     elapsed = time.time() - start_time
 

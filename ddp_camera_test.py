@@ -1,4 +1,3 @@
-import numpy as np
 import cv2 as cv
  
 from ddp import DDPDevice

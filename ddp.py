@@ -1,9 +1,3 @@
-#import logging
-#import logging.handlers
-#from ledfx.devices.ddp import DDPDevice
-
-#device = DDPDevice()
-
 import logging
 from typing import Union
 
@@ -12,7 +6,6 @@ import socket
 
 import numpy as np
 from numpy import ndarray
-from time import sleep
 
 
 _LOGGER = logging.getLogger()
@@ -171,44 +164,7 @@ class DDPDevice:
         )
         udpData = header + bytes(data)
         
-        print(f"Sending {udpData}")
-        print(dest)
-        print(port)
-
         sock.sendto(
             udpData,
             (dest, port),
         )
-
-
-def matrix_to_ddp_data(array: np.ndarray):
-    if array.shape != (16, 16):
-        raise Exception("Learn to count")
-    
-    return np.repeat(array.flatten(), 3)
-
-
-
-device = DDPDevice(destination="192.168.100.101", destination_port=4048)
-
-# data_1 = np.zeros(3*256)
-# #data_2 = np.full(17, fill_value=20)
-# data_2 = np.zeros(3*256)
-# data_2[:6] = 255
-
-# device.flush(data=data_1)
-# # sleep(1)
-# device.flush(data=data_2)
-
-# while True:
-#     device.flush(np.zeros(3*256))
-#     for i in range(3, 256 * 3 + 1, 3):
-#         data = np.zeros(3*256)
-#         data[:i] = 255
-#         device.flush(data=data)
-#         sleep(0.2)
-
-data = np.zeros([16, 16])
-# for i in range(16):
-#     data[i] = 16 * i + 1
-device.flush(matrix_to_ddp_data(data))

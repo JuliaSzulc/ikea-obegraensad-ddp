@@ -1,3 +1,6 @@
+# Test frames of the bad apple animation (not a good idea to push 6k files)
+badapple_frames
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
