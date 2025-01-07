@@ -1,21 +1,22 @@
 import cv2 as cv
- 
-from ddp import DDPDevice
+
+from src.DDPDevice import DDPDevice
+from src.utils import load_config
 
 
-device = DDPDevice(destination="192.168.100.101", destination_port=4048)
-
+config = load_config()
+device = DDPDevice(dest_ip=config["dest_ip"])
 
 cap = cv.VideoCapture(0)
+
 if not cap.isOpened():
     print("Cannot open camera")
     exit()
 
-
 while True:
     # Capture frame-by-frame
     ret, frame = cap.read()
- 
+
     # if frame is read correctly ret is True
     if not ret:
         print("Can't receive frame (stream end?). Exiting ...")
@@ -25,13 +26,13 @@ while True:
 
     small = cv.resize(gray, (16, 16))
 
-    blur = cv.GaussianBlur(small, (9,9), sigmaX=0, sigmaY=0) 
+    blur = cv.GaussianBlur(small, (9, 9), sigmaX=0, sigmaY=0)
 
-    edges = cv.Canny(image=blur, threshold1=50, threshold2=100) 
+    edges = cv.Canny(image=blur, threshold1=50, threshold2=100)
 
-    #data = cv.resize(edges, (16, 16))
+    # data = cv.resize(edges, (16, 16))
 
-    device.display(edges)
+    device.display_array(edges)
 
     edges_big = cv.resize(edges, (512, 512), interpolation=cv.INTER_NEAREST)
 
@@ -39,9 +40,9 @@ while True:
     cv.imshow("edges", edges)
     cv.imshow("edges_big", edges_big)
 
-    if cv.waitKey(1) == ord('q'):
+    if cv.waitKey(1) == ord("q"):
         break
- 
+
 # When everything done, release the capture
 cap.release()
 cv.destroyAllWindows()
