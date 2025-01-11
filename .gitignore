@@ -1,5 +1,6 @@
 # Test frames of the bad apple animation (not a good idea to push 6k files)
-badapple_frames
+test_data/badapple_frames/
+config.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

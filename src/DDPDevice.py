@@ -37,12 +37,9 @@ class DDPDevice:
         Displays the data given as a pixel array.
         Values can be either integers [0-255] - indicating brightness, or booleans -
         ignoring brightness setting.
-
-        Args:
-            data: Array of LED brightness values.
-
-        Raises:
-            ValueError: If shape of the data is different from the LED array dimensions.
+        :param data: Array of LED brightness values
+        :raises ValueError: If shape of the data is different from the LED array
+            dimensions
         """
         if data.shape != self.resolution:
             msg = (
@@ -65,14 +62,10 @@ class DDPDevice:
     def display_pixel(self, x: int, y: int, value: int = 255) -> None:
         """
         Lights up a single pixel.
-
-        Args:
-            x: Row of the LED.
-            y: column of the LED.
-            value: Brightness of the pixel. Defaults to 255.
-
-        Raises:
-            ValueError: If coordinates are out of bounds of the defined resolution.
+        :param x: Row of the LED
+        :param y: column of the LED
+        :param value: Brightness of the pixel. Defaults to 255
+        :raises ValueError: If coordinates are out of bounds of the defined resolution
         """
         if x not in range(self.resolution[0]) or y not in range(self.resolution[1]):
             msg = f"Coordinates ({x}, {y}) out of bounds {self.resolution}."
@@ -98,15 +91,11 @@ class DDPDevice:
         Image is first converted to grayscale. Then, if its size is not exactly the same
         as the resolution, it can be cropped (from top left corner), resized or padded
         (if the image is larger it's first resized and then padded).
-
-        Args:
-            path: Path to the image file.
-            mode: Preprocessing option of images with different resolution. Defaults to
-                "resize".
-
-        Raises:
-            FileExistsError: If the path does not point to a file.
-            ValueError: If unsupported `mode` value is passed.
+        :param path: Path to the image file
+        :param mode: Preprocessing option of images with different resolution, defaults
+            to "resize"
+        :raises FileExistsError: If the path does not point to a file
+        :raises ValueError: If unsupported `mode` value is passed
         """
         path = Path(path)
         if not path.exists() or not path.is_file():
@@ -135,6 +124,15 @@ class DDPDevice:
         fps: int = 30,
         countdown: int = 0,
     ) -> None:
+        """
+        Displays a series of ordered image files inside a given directory as an
+        animation.
+        :param dir_path: Directory containing frames of the animation
+        :param fps: Frames per second, defaults to 30
+        :param countdown: Initial countdown in the command line before the animation is
+            displayed (useful for syncing music or other device), defaults to 0
+        :raises FileExistsError: If incorrect directory path is given
+        """
         dir_path = Path(dir_path)
         if not dir_path.exists() or not dir_path.is_dir():
             raise FileExistsError(f"Directory `{dir_path}` does not exist.")
